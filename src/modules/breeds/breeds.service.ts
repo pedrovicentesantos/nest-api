@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import DogBreed from 'src/database/entities/DogBreed.entity';
 import { Repository } from 'typeorm';
 import CreateBreedDto from './dtos/create-breed.dto';
+import UpdateBreedDto from './dtos/update-breed.dto';
 
 @Injectable()
 export class BreedsService {
@@ -25,5 +26,13 @@ export class BreedsService {
 
   delete(id: string): void {
     this.breedRepository.delete(id);
+  }
+
+  async update(id: string, dto: UpdateBreedDto): Promise<void> {
+    const item = await this.breedRepository.findOne(id);
+    this.breedRepository.update(id, {
+      Name: dto.name || item.Name,
+      ImageUrl: dto.imageUrl || item.ImageUrl,
+    });
   }
 }
