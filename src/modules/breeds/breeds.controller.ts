@@ -36,8 +36,11 @@ export class BreedsController {
   }
 
   @Delete(':id')
-  delete(@Param('id') id: string): void {
-    return this.breedsService.delete(id);
+  async delete(@Param('id') id: string): Promise<void> {
+    const breed = await this.breedsService.delete(id);
+    if (!breed) {
+      throw new HttpException('Breed not found', HttpStatus.NOT_FOUND);
+    }
   }
 
   @Patch(':id')

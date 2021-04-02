@@ -24,8 +24,12 @@ export class BreedsService {
     return this.breedRepository.findOne(id);
   }
 
-  delete(id: string): void {
-    this.breedRepository.delete(id);
+  async delete(id: string): Promise<DogBreed> {
+    const item = await this.find(id);
+    if (item) {
+      this.breedRepository.delete(id);
+      return item;
+    }
   }
 
   async update(id: string, dto: UpdateBreedDto): Promise<DogBreed> {
