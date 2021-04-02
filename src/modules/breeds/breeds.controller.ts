@@ -32,6 +32,11 @@ export class BreedsController {
 
   @Post()
   create(@Body() dto: CreateBreedDto): void {
+    if (!dto.name || !dto.imageUrl)
+      throw new HttpException(
+        'Name and/or imageUrl not found in body',
+        HttpStatus.BAD_REQUEST,
+      );
     this.breedsService.create(dto);
   }
 
