@@ -22,4 +22,8 @@ export class BreedsService {
   find(id: string): Promise<DogBreed> {
     return this.breedRepository.findOne(id);
   }
+
+  delete(id: string): void {
+    this.breedRepository.delete(id);
+  }
 }

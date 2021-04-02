@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import DogBreed from 'src/database/entities/DogBreed.entity';
 import { BreedsService } from './breeds.service';
 import CreateBreedDto from './dtos/create-breed.dto';
@@ -20,5 +20,10 @@ export class BreedsController {
   @Post()
   create(@Body() dto: CreateBreedDto): void {
     this.breedsService.create(dto);
+  }
+
+  @Delete(':id')
+  delete(@Param('id') id: string): void {
+    return this.breedsService.delete(id);
   }
 }
