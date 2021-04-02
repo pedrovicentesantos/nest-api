@@ -3,6 +3,8 @@ import {
   Controller,
   Delete,
   Get,
+  HttpException,
+  HttpStatus,
   Param,
   Patch,
   Post,
@@ -22,8 +24,10 @@ export class BreedsController {
   }
 
   @Get(':id')
-  find(@Param('id') id: string): Promise<DogBreed> {
-    return this.breedsService.find(id);
+  async find(@Param('id') id: string): Promise<DogBreed> {
+    const breed = await this.breedsService.find(id);
+    if (breed) return this.breedsService.find(id);
+    throw new HttpException('Breed not found', HttpStatus.NOT_FOUND);
   }
 
   @Post()
