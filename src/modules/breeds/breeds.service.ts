@@ -28,11 +28,14 @@ export class BreedsService {
     this.breedRepository.delete(id);
   }
 
-  async update(id: string, dto: UpdateBreedDto): Promise<void> {
-    const item = await this.breedRepository.findOne(id);
-    this.breedRepository.update(id, {
-      Name: dto.name || item.Name,
-      ImageUrl: dto.imageUrl || item.ImageUrl,
-    });
+  async update(id: string, dto: UpdateBreedDto): Promise<DogBreed> {
+    const item = await this.find(id);
+    if (item) {
+      this.breedRepository.update(id, {
+        Name: dto.name || item.Name,
+        ImageUrl: dto.imageUrl || item.ImageUrl,
+      });
+      return await this.find(id);
+    }
   }
 }

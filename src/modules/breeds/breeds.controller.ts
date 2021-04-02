@@ -41,7 +41,13 @@ export class BreedsController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() dto: UpdateBreedDto): void {
-    this.breedsService.update(id, dto);
+  async update(
+    @Param('id') id: string,
+    @Body() dto: UpdateBreedDto,
+  ): Promise<void> {
+    const breed = await this.breedsService.update(id, dto);
+    if (!breed) {
+      throw new HttpException('Breed not found', HttpStatus.NOT_FOUND);
+    }
   }
 }
